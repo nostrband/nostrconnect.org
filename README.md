@@ -76,11 +76,11 @@ Here is how it will look with `nostr-tools` or `NDK`:
 - fetch the `remote signer pubkey` and `bunker relays` of the selected provider from their [nostr.json?name=_](https://github.com/nostr-protocol/nips/blob/master/46.md#nip-05-login-flow) endpoint
 - connect to the `bunker relays` (`NDK`)
 - with `nostr-tools` you will call `createAccount` and supply the provider info and the `onauth` callback
-- with `NDK` you'll have to create the `create_account` request yourself and send it with their `rpc` object
+- with `NDK` you'll have to create a `NDKNip46Signer` with `remote signer pubkey` and then create the `create_account` request yourself and send it with their `rpc` object
 - whenever `auth_url` message arrives, follow the same logic as above with the *Login* flow
 - `create_account` will return the newly created `remote_user_pubkey`
 - with `createAccount` of `nostr-tools`, you will get a ready-to-use `BunkerSigner` object (when they fix an [issue](https://github.com/nbd-wtf/nostr-tools/issues/401))
-- with `NDK` you'll have to create a new `NDKNip46Signer` yourself with the same `local keypair`
+- with `NDK` you'll have to create a new `NDKNip46Signer` yourself with the same `local keypair` and the new `remote user pubkey`
 - and don't forget to save the `local keypair` and `remote user pubkey` and `bunker relays` to the persistent storage to reuse later
 
 Now that was really hard, even with a help of some libraries. Hopefully, we get wider and more polished support for `create_account` method, for now - it is what it is.
