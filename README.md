@@ -28,7 +28,7 @@ Because there's actually a lot to handle...
 
 ## How to implement login with Nostr Connect?
 
-If you just want your own Nostr Connect UI you should probably use [NDK](https://github.com/nostr-dev-kit/ndk/blob/master/ndk/src/signers/nip46/index.ts) or [nostr-tools](https://github.com/nbd-wtf/nostr-tools/blob/master/nip46.ts) to avoid implementing the full nip46 protocol yourself.
+If you just want your own Nostr Connect UI you should probably use [NDK](https://github.com/nostr-dev-kit/ndk/blob/master/ndk/src/signers/nip46/index.ts) or [nostr-tools@v2](https://github.com/nbd-wtf/nostr-tools/blob/master/nip46.ts) to avoid implementing the full nip46 protocol yourself.
 
 However, even with one of these libraries, the flow will be quite complex:
 - ask the user for their `bunker URL` or `nip05` address
