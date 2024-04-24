@@ -14,7 +14,7 @@ If you are looking for a more general *login with Nostr* guide, check out [nostr
 
 ## How to get started with Nostr Connect?
 
-First things first, to test your Nostr Connect client you should get yourself a server first - try [nsec.app](https://nsec.app) or [nsecbunker.com](https://nsecbunker.com) or [Gossip](https://github.com/mikedilger/gossip) nostr client.
+Before we start, to test your Nostr Connect client you should get yourself a server first - try [nsec.app](https://nsec.app) or [nsecbunker.com](https://nsecbunker.com) or [Gossip](https://github.com/mikedilger/gossip) nostr client.
 
 Now, if you're building a web app, the best place to start would be [nostr-login](https://github.com/nostrband/nostr-login) or [window.nostr.js](https://github.com/fiatjaf/window.nostr.js). 
 
