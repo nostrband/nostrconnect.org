@@ -90,7 +90,7 @@ Now that was really hard, even with a help of some libraries. Hopefully, we get 
 This is really out of scope of a *Getting started* guide (just use libraries), but here are some hints:
 - when subscribing to the replies from the signer, add the `since` filter with something like now - 10 seconds threshold, many strfry relays don't actually delete the ephemeral events and will send you old replies
 - make sure the first parameter for `connect` method is the `remote user pubkey`, not `local keypair pubkey`
-- make sure you support passing the `secret` as a second parameter to `connect` method, many providers only allow connections with a `secret`
+- make sure you support passing the `secret` as a second parameter to `connect` method, some providers only allow connections with a `secret`
 - all parameters and all return values of the nip46 method calls are `strings`, which means you'll have to stringify the event for `signEvent`, etc
 - make sure you handle relay disconnects properly - reconnect, and re-subscribe to nip46 replies
 - make sure you ignore duplicates of `auth_url` messages, only the first `auth_url` per method call should be handled
