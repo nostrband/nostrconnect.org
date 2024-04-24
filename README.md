@@ -10,7 +10,7 @@ If you need continuous access to users' Nostr keys, you have these options:
 
 This guide is for you if you want to implement Nostr Connect.
 
-If you are looking for a more general *login with Nostr* guide, check out https://nostrlogin.org
+If you are looking for a more general *login with Nostr* guide, check out [nostrlogin.org](https://nostrlogin.org)
 
 ## How to get started with Nostr Connect?
 
