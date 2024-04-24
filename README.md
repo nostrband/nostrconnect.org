@@ -68,10 +68,10 @@ Sign up differs from login in that there is no `remote user pubkey` yet.
 Instead, we will use the [remote signer pubkey](https://github.com/nostr-protocol/nips/blob/master/46.md#terminology) to send a `create_account` request to the nip46 server. 
 
 Here is how it will look with `nostr-tools` or `NDK`:
-- ask the user for their preferred username, and show them a list of nip46 services - the full username will be `name@provider.com`
+- ask the user for their preferred username, and show them a list of nip46 providers - the full username will be `name@provider.com`
 - you might fetch the list of providers from the Nostr network, that's `fetchBunkerProviders` with `nostr-tools`, but keep in mind - anyone can publish a provider description, and you don't want to send your users to some scammy service, so...
 - so maybe you start with a static list of good providers, and only fetch from network later, when you add some Web of Trust signals for your users to evaluate the providers
-- now that user has entered their preferred username and selected a provider - make a [nip05](https://github.com/nostr-protocol/nips/blob/master/05.md) to check if the username is available
+- now that user has entered their preferred username and selected a provider - make a [nip05](https://github.com/nostr-protocol/nips/blob/master/05.md) request to check if the username is available
 - if the name is available, let users click *Sign up*, show them the *Loading* state
 - fetch the `bunker relays` of the selected provider from their [nostr.json](https://github.com/nostr-protocol/nips/blob/master/46.md#nip-05-login-flow)
 - connect to the `bunker relays` (`NDK`)
