@@ -50,6 +50,8 @@ Wow, we made it!
 
 Well hopefully we didn't miss anything and it actually worked.
 
+## How to access keys with Nostr Connect?
+
 Here is what happens next:
 - you send `sign_event` or other requests using the nip46 client
 - `auth_url` messages might arrive if key storage app needs a confirmation from the user
@@ -58,6 +60,56 @@ Here is what happens next:
 - the popup will be auto-closed, no need to watch it
 
 Cool, we're accessing those keys now!
+
+## How to implement signup with Nostr Connect?
+
+Sign up differs from login in that there is no `remote user pubkey` yet.
+
+Instead, we will use the [remote signer pubkey](https://github.com/nostr-protocol/nips/blob/master/46.md#terminology) to send a `create_account` request to the nip46 server. 
+
+Here is how it will look with `nostr-tools` or `NDK`:
+- ask the user for their preferred username, and show them a list of nip46 services - the full username will be `name@provider.com`
+- you might fetch the list of providers from the Nostr network, that's `fetchBunkerProviders` with `nostr-tools`, but keep in mind - anyone can publish a provider description, and you don't want to send your users to some scammy service, so...
+- so maybe you start with a static list of good providers, and only fetch from network later, when you add some Web of Trust signals for your users to evaluate the providers
+- now that user has entered their preferred username and selected a provider - make a [nip05](https://github.com/nostr-protocol/nips/blob/master/05.md) to check if the username is available
+- if the name is available, let users click *Sign up*, show them the *Loading* state
+- fetch the `bunker relays` of the selected provider from their [nostr.json](https://github.com/nostr-protocol/nips/blob/master/46.md#nip-05-login-flow)
+- connect to the `bunker relays` (`NDK`)
+- with `nostr-tools` you will call `createAccount` and supply the provider into and `onauth` callback
+- with `NDK` you'll have to create the `create_account` request yourself and send it with their `rpc` object
+- whenever `auth_url` message arrives, follow the same logic as above with the *Login* flow
+- `create_account` will return the newly created `remote_user_pubkey`
+- with `createAccount` of `nostr-tools`, you will get a ready-to-use `BunkerSigner` object (when they fix an [issue](https://github.com/nbd-wtf/nostr-tools/issues/401))
+- with `NDK` you'll have to create a new `NDKNip46Signer` yourself with the same `local keypair`
+- and don't forget to save the `local keypair` and `remote user pubkey` and `bunker relays` to the persistent storage to reuse later
+
+Now that was really hard, even with a help of some libraries. Hopefully, we get wider and more polished support for `create_account` method, for now - it is what it is.
+
+## How to implement the Nostr Connect client protocol?
+
+This is really out of scope of a *Getting started* guide (just use libraries), but here are some hints:
+- when subscribing to the replies from the signer, add the `since` filter with something like now - 10 seconds threshold, many strfry relays don't actually delete the ephemeral events and will send you old replies
+- make sure the first parameter for `connect` method is the `remote user pubkey`, not `local keypair pubkey`
+- make sure you support passing the `secret` as a second parameter to `connect` method, many providers only allow connections with a `secret`
+- all parameters and all return values of the nip46 method calls are `strings`, which means you'll have to stringify the event for `signEvent`, etc
+- make sure you handle relay disconnects properly - reconnect, and re-subscribe to nip46 replies
+- make sure you ignore duplicates of `auth_url` messages, only the first `auth_url` per method call should be handled
+- make sure you ignore duplicate replies, only handle the first one
+- make sure you test with relays dedicated to nip46, general purpose public relays may block ephemeral events or may impose rate limits if you make lots of method calls
+
+## How to implement the Nostr Connect server protocol?
+
+Some hints here too:
+- when subscribing to the replies from the signer, add the `since` filter with something like now - 10 seconds threshold, many strfry relays don't actually delete the ephemeral events and will send you old replies
+- make sure you only allow confirmation of new connections without a `secret` using `auth_url` pages, do not show connection requests without a `secret` in other parts of your app, this is a [security hole](https://njump.me/nevent1qvzqqqqqqypzpms35h0lgrqe542lg8ly9dy0qrnp3jgjy43z4cmmds4mv7mkcnjfqy88wumn8ghj7mn0wvhxcmmv9uq32amnwvaz7tmjv4kxz7fwv3sk6atn9e5k7tcqyzycl5rc2a37ld0032mxgn5uee9k6vzputnqmjeyzfg23mfqq3h7cdtdk9t)
+- make sure you handle relay disconnects properly - reconnect, resubscribe
+- LOTS MORE, TBD.
+
+## Still have questions?
+
+Submit an [issue](https://github.com/nostrband/nostrconnect.org/issues) for this repo, we will do our best to help. And please submit PRs if you have something to contribute.
+
+
 
 
 
