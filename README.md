@@ -73,9 +73,9 @@ Here is how it will look with `nostr-tools` or `NDK`:
 - so maybe you start with a static list of good providers, and only fetch from network later, when you add some Web of Trust signals for your users to evaluate the providers
 - now that user has entered their preferred username and selected a provider - make a [nip05](https://github.com/nostr-protocol/nips/blob/master/05.md) request to check if the username is available
 - if the name is available, let users click *Sign up*, show them the *Loading* state
-- fetch the `bunker relays` of the selected provider from their [nostr.json](https://github.com/nostr-protocol/nips/blob/master/46.md#nip-05-login-flow)
+- fetch the `remote signer pubkey` and `bunker relays` of the selected provider from their [nostr.json?name=_](https://github.com/nostr-protocol/nips/blob/master/46.md#nip-05-login-flow) endpoint
 - connect to the `bunker relays` (`NDK`)
-- with `nostr-tools` you will call `createAccount` and supply the provider into and `onauth` callback
+- with `nostr-tools` you will call `createAccount` and supply the provider info and the `onauth` callback
 - with `NDK` you'll have to create the `create_account` request yourself and send it with their `rpc` object
 - whenever `auth_url` message arrives, follow the same logic as above with the *Login* flow
 - `create_account` will return the newly created `remote_user_pubkey`
